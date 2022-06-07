@@ -23,20 +23,19 @@ class model:
 		neighbors = [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]
 		return [x for x in neighbors if (x[0] in range(len(self.brange)) and x[1] in range(len(self.xirange)))]
 
-	def sim(self, v0:tuple, n0:int, s:int):
+	def sim(self, s:int, i0:np.ndarray):
 		lst1 = [] #history of infected
 		lst2 = lst1.copy()
 		lstS = [s]
-		lstI = [n0]
+		lstI = [np.sum(i0)]
 		S = s #matches notation
-		I1 = np.zeros((len(self.brange), len(self.xirange)), dtype=int) #tracks infected in period 1. Change variable names for clarity
-		I2 = I1.copy()
+		I1 = i0 #tracks infected in period 1
+		I2 = np.zeros((len(self.brange), len(self.xirange)), dtype=int)
 		p = np.zeros((len(self.brange), len(self.xirange)), dtype=float) #p(i, j)
 		st = I2.copy() #s_{t, (i, j)}
 		sbart = I2.copy()
 		Ibar = I2.copy()
 		d = I2.copy() #delta(i, j)->(i', j')
-		I1[v0] = n0 #multiple variants?
 		lst1.append(I1.copy()) #current period
 		lst2.append(I2.copy())
 		lstS.append(S)
@@ -91,4 +90,3 @@ class model:
 			#print("==================================================")
 		#print(lst1)
 		return lst1, lst2, lstI, lstS
-
