@@ -10,7 +10,9 @@ import math
 #mod = model(.001, .001, 3, 0, 0, 1, 1) #"base" Reed-Frost
 
 mod = model(.001, .001, 10, 0.5, 0.001, 5, .5)
-lst1, lst2, lstI, lstS = mod.sim((0, 0), 60, 1500)
+i0 = np.zeros((len(mod.brange), len(mod.xirange)), dtype=int)
+i0[0, 0] = 60
+lst1, lst2, lstI, lstS = mod.sim(1500, i0)
 lstI_sep = [lst1[x]+lst2[x] for x in range(len(lst1))]
 for i in lstI_sep:
 	#plt.imshow(i, cmap='gray', vmin=0, vmax=255)
