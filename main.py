@@ -9,9 +9,11 @@ import math
 
 #mod = model(.001, .001, 3, 0, 0, 1, 1) #"base" Reed-Frost
 
-mod = model(.001, .001, 10, 0.5, 0.001, 5, .5)
-i0 = np.zeros((len(mod.brange), len(mod.xirange)), dtype=int)
-i0[0, 0] = 60
+#mod = model(.001, .001, 10, 0.5, 0.001, 5, .5) #initial test case
+#i0 = np.zeros((len(mod.brange), len(mod.xirange)), dtype=int)
+#i0[0, 0] = 60
+mod = model(.01, .001, 10, 0.5, 0.001, 5, .5)
+i0 = np.ones((len(mod.brange), len(mod.xirange)), dtype=int) #test case
 lst1, lst2, lstI, lstS = mod.sim(1500, i0)
 lstI_sep = [lst1[x]+lst2[x] for x in range(len(lst1))]
 for i in lstI_sep:
