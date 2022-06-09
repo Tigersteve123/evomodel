@@ -48,7 +48,7 @@ class model:
 			#print(I, S)
 			Isum = np.sum(I1, 1)+np.sum(I2, 1)
 			denom5 = np.sum(self.brange*Isum) #eq. 5 denominator
-			print("Denom ", denom5)
+			#print("Denom ", denom5)
 			if denom5 > 0: #we do need this check
 				for i in range(len(self.brange)):
 					for j in range(len(self.xirange)):
@@ -59,7 +59,6 @@ class model:
 				#print(Ibar_flat)
 				Ibar = np.reshape(Ibar_flat, (len(self.brange), len(self.xirange))) #eq. 4
 			#else: Ibar = np.zeros(len(self.brange), len(self.xirange), dtype=int)
-			print(Ibar)
 			#print("I ", I1+I2)
 			#print("Ibar ", Ibar)
 			for i in range(len(self.brange)):

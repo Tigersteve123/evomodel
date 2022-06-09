@@ -12,12 +12,17 @@ import math
 #mod = model(.001, .001, 10, 0.5, 0.001, 5, .5) #initial test case
 #i0 = np.zeros((len(mod.brange), len(mod.xirange)), dtype=int)
 #i0[0, 0] = 60
-mod = model(.01, .001, 10, 0.5, 0.001, 5, .5)
-i0 = np.ones((len(mod.brange), len(mod.xirange)), dtype=int) #test case
-lst1, lst2, lstI, lstS = mod.sim(1500, i0)
-lstI_sep = [lst1[x]+lst2[x] for x in range(len(lst1))]
-for i in lstI_sep:
-	#plt.imshow(i, cmap='gray', vmin=0, vmax=255)
+mod = model(.0005, .0001, 10, 0.5, 0.001, 5, .5)
+total = np.zeros((15, len(mod.brange), len(mod.xirange)), dtype=int)
+for i in range(1000):
+	i0 = np.ones((len(mod.brange), len(mod.xirange)), dtype=int)
+	lst1, lst2, lstI, lstS = mod.sim(1500, i0)
+	#lstI_sep = [lst1[x]+lst2[x] for x in range(len(lst1))]
+	for x in range(len(lst1)):
+		total[x] = total[x]+lst1[x]+lst2[x]
+	#print("=================")
+for i in total:
+#plt.imshow(i, cmap='gray', vmin=0, vmax=255)
 	fig, ax = plt.subplots()
 	im, cbar = heatmap(i, mod.xirange, mod.brange)
 	fig.tight_layout()
@@ -26,9 +31,14 @@ for i in lstI_sep:
 #print(lst1)
 #print(lst2)
 
-runs_I = []
+'''mod = model(.0005, .0001, 10, 0.5, 0.001, 5, .5)
+i0 = np.ones((len(mod.brange), len(mod.xirange)), dtype=int) #test case
+print(mod.sim(1500, i0))'''
+
+
+'''runs_I = []
 runs_S = []
-'''for i in range(100):
+for i in range(100):
 	lst1, lst2, lstI, lstS = mod.sim((0, 0), 60, 1500)
 	runs_I.append(lstI)
 	runs_S.append(lstS)
