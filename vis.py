@@ -15,6 +15,7 @@ m = parser.parse_args()
 #print(m.matrix)
 
 data = np.load(m.matrix[0])
+#print(data)
 data = data.astype(float)/2000.0
 
 #print(data)
@@ -27,3 +28,4 @@ for i in data:
 		im, cbar = heatmap(i, mod.brange, mod.xirange, vmin=0, vmax=np.max(data))
 		fig.tight_layout()
 plt.show()
+
