@@ -18,7 +18,8 @@ if __name__ == '__main__':
 		for xi0 in np.arange(.1, 1, .1):
 			for ps in np.arange(.1, 1, .1):
 				mod = model(b0, .0001, 10, xi0, 0.001, 5, ps)
-				total = np.zeros((15, len(mod.brange), len(mod.xirange)), dtype=int)
+				total = np.zeros((1, len(mod.brange), len(mod.xirange)), dtype=int)
+				#print(total)
 				#i0_uniform = np.ones((len(mod.brange), len(mod.xirange)), dtype=int)
 				#i0_worstcorner = np.zeros((len(mod.brange), len(mod.xirange)), dtype=int)
 				#i0_bestcorner = i0_worstcorner.copy()
@@ -26,17 +27,19 @@ if __name__ == '__main__':
 				#i0_worstcorner[0, 0] = 50
 				#i0_bestcorner[9, 4] = 50
 				i0_center[5, 2] = 50
+				#print(i0_center)
 				for i in range(1000):
 					#print("Run", i)
-					i0 = np.ones((len(mod.brange), len(mod.xirange)), dtype=int)
+					#i0 = np.ones((len(mod.brange), len(mod.xirange)), dtype=int)
 					#i0[5, 2] = 500
-					lst1, lst2, lstI, lstS = mod.sim(15000, i0)
+					lst1, lst2, lstI, lstS = mod.sim(15000, i0_center.copy())
 					#lstI_sep = [lst1[x]+lst2[x] for x in range(len(lst1))]
 					for x in range(len(lst1)):
-						total[x] = total[x]+lst1[x]+lst2[x]
+						try: total[x] = total[x]+lst1[x]+lst2[x]
+						except: total = np.concatenate((total, [lst1[x]+lst2[x]]))
+						#print(total)
 						#print("=================")
-				filename = 'runs/test_'+b0+'_'+xi0+'_'+ps+'.npy'
-
+				filename = 'runs/test_'+str(b0)+'_'+str(xi0)+'_'+str(ps)+'.npy'
 				with open(filename, 'wb') as f:
 					np.save(f, total)
 

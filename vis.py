@@ -15,8 +15,8 @@ m = parser.parse_args()
 #print(m.matrix)
 
 data = np.load(m.matrix[0])
-#print(data)
-data = data.astype(float)/2000.0
+print(np.sum(data))
+#data = data.astype(float)/1000.0
 
 #print(data)
 
@@ -25,7 +25,7 @@ mod = model(.0005, .0001, 10, 0.5, 0.001, 5, .5)
 for i in data:
 	if np.sum(i) > 0:
 		fig, ax = plt.subplots()
-		im, cbar = heatmap(i, mod.brange, mod.xirange, vmin=0, vmax=np.max(data))
+		im, cbar = heatmap(i, mod.brange, mod.xirange, vmin=0) #, vmax=np.max(data))
 		fig.tight_layout()
 plt.show()
 

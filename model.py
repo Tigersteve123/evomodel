@@ -53,7 +53,10 @@ class model:
 			darray = []
 			for x in self.neighborcoords(i, j): #for every neighbor
 				#print(self.neighborcoords(i, j))
-				neighborParray = np.random.multinomial(sbart[x], [(1-self.ps)/len(self.neighborcoords(i, j)) for a in range(len(self.neighborcoords(i, j)))] )
+				probs = [1/len(self.neighborcoords(i, j)) for a in range(len(self.neighborcoords(i, j)))]
+				#print(probs)
+				neighborParray = np.random.multinomial(sbart[x], probs)
+				print(sbart[x], neighborParray)
 				narray = self.neighbors(i, j)
 				#print(i, j)
 				#print(narray)
@@ -63,7 +66,7 @@ class model:
 							last, neighborParray = neighborParray[-1], neighborParray[:-1] #pop
 							darray.append(last)
 			d[i, j] = np.sum(darray) #eq. 7
-			I1[i, j] = st[i, j]+d[i, j]
+			I1[i, j] = st[i, j]+d[i, j] #eq. 8
 
 		#executor = futures.ProcessPoolExecutor()
 
@@ -98,14 +101,24 @@ class model:
 			#with futures.ProcessPoolExecutor() as executor:
 			for i in range(len(self.brange)):
 				for j in range(len(self.xirange)):
-					eq67(i, j)
+					#eq67(i, j)
 					#Process(target=eq67, args=(i, j)).start()
-			#		st[i, j] = np.random.binomial(Ibar[i, j], self.ps) #eq. 6
-			#		sbart[i, j] = Ibar[i, j]-st[i, j]
+					st[i, j] = np.random.binomial(Ibar[i, j], self.ps) #eq. 6
+					sbart[i, j] = Ibar[i, j]-st[i, j]
+			I1 = st.copy()
+			for i in range(len(self.brange)):
+				for j in range(len(self.xirange)):
+					probs = [1/len(self.neighborcoords(i, j)) for a in range(len(self.neighborcoords(i, j)))]
+					neighborParray = np.random.multinomial(sbart[i, j], probs)
+					narray = self.neighborcoords(i, j)
+					#print(narray)
+					for x in range(len(narray)):
+						#print(I1[narray[x]])
+						I1[narray[x]] = I1[narray[x]]+neighborParray[x]
 			#		darray = []
 			#		for x in self.neighborcoords(i, j): #for every neighbor
 			#			#print(self.neighborcoords(i, j))
-			#			neighborParray = np.random.multinomial(sbart[x], [(1-self.ps)/len(self.neighborcoords(i, j)) for a in range(len(self.neighborcoords(i, j)))] )
+			#			neighborParray = np.random.multinomial(sbart[x], [1/len(self.neighborcoords(i, j)) for a in range(len(self.neighborcoords(i, j)))] )
 			#			narray = self.neighbors(i, j)
 			#			#print(i, j)
 			#			#print(narray)
