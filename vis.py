@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 from model import model
 from heatmap import heatmap
+from summary import summary
 
 parser = argparse.ArgumentParser(description='Generate labeled heatmaps')
 
@@ -15,17 +16,21 @@ m = parser.parse_args()
 #print(m.matrix)
 
 data = np.load(m.matrix[0])
-print(np.sum(data))
+#print(np.sum(data))
 #data = data.astype(float)/1000.0
 
 #print(data)
 
 mod = model(.0005, .0001, 10, 0.5, 0.001, 5, .5)
-
+'''
 for i in data:
 	if np.sum(i) > 0:
 		fig, ax = plt.subplots()
 		im, cbar = heatmap(i, mod.brange, mod.xirange, vmin=0) #, vmax=np.max(data))
 		fig.tight_layout()
-plt.show()
+plt.show()'''
 
+sum = summary(data, mod=mod)
+sum.vistotal()
+print(sum.evolvedGreaterB())
+print(sum.evolvedGreaterXi())
