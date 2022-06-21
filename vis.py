@@ -31,6 +31,6 @@ for i in data:
 plt.show()'''
 
 sum = summary(data, mod=mod)
-sum.vistotal()
+sum.vis()
 print(sum.evolvedGreaterB())
 print(sum.evolvedGreaterXi())

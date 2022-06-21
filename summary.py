@@ -10,7 +10,7 @@ class summary:
 		self.runtotal = np.sum(run, axis=0)
 		if params != None: self.mod = model(params[0], .001, 10, params[1], .001, 5, params[2])
 		elif mod != None: self.mod = mod
-		else: self.mod = model(.0005, .0001, 10, .5, .001, 5, .5)
+		else: self.mod = model(.0005, .0001, 11, .5, .001, 5, .5)
 
 	def vis(self):
 		for i in self.run:

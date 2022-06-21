@@ -11,7 +11,7 @@ import concurrent.futures as futures
 #mod = model(.001, .001, 3, 0, 0, 1, 1) #"base" Reed-Frost
 
 if __name__ == '__main__':
-	mod = model(0.0006000000000000001, .0001, 10, 0.1, 0.001, 5, .6)
+	mod = model(0.0006000000000000001, .0001, 11, 0.1, 0.001, 5, .6)
 	total = np.zeros((1, len(mod.brange), len(mod.xirange)), dtype=int)
 	total1 = total.copy()
 	total2 = total.copy()
