@@ -17,7 +17,7 @@ if __name__ == '__main__':
 	for b0 in np.arange(.0001, .001, .0001):
 		for xi0 in np.arange(.1, 1, .1):
 			for ps in np.arange(.1, 1, .1):
-				mod = model(b0, .0001, 10, xi0, 0.001, 5, ps)
+				mod = model(b0, .0001, 11, xi0, 0.001, 5, ps)
 				total = np.zeros((1, len(mod.brange), len(mod.xirange)), dtype=int)
 				#print(total)
 				#i0_uniform = np.ones((len(mod.brange), len(mod.xirange)), dtype=int)

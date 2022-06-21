@@ -21,7 +21,7 @@ data = np.load(m.matrix[0])
 
 #print(data)
 
-mod = model(.0005, .0001, 10, 0.5, 0.001, 5, .5)
+mod = model(.0005, .0001, 11, 0.5, 0.001, 5, .5)
 '''
 for i in data:
 	if np.sum(i) > 0:
