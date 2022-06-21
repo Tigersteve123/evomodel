@@ -19,6 +19,10 @@ if __name__ == '__main__':
 			for ps in np.arange(.1, 1, .1):
 				mod = model(b0, .0001, 11, xi0, 0.001, 5, ps)
 				total = np.zeros((1, len(mod.brange), len(mod.xirange)), dtype=int)
+				total_i1 = total.copy()
+				total_i2 = total.copy()
+				total_I = np.array([])
+				total_S = np.array([])
 				#print(total)
 				#i0_uniform = np.ones((len(mod.brange), len(mod.xirange)), dtype=int)
 				#i0_worstcorner = np.zeros((len(mod.brange), len(mod.xirange)), dtype=int)
@@ -35,10 +39,18 @@ if __name__ == '__main__':
 					lst1, lst2, lstI, lstS = mod.sim(15000, i0_center.copy())
 					#lstI_sep = [lst1[x]+lst2[x] for x in range(len(lst1))]
 					for x in range(len(lst1)):
-						try: total[x] = total[x]+lst1[x]+lst2[x]
-						except: total = np.concatenate((total, [lst1[x]+lst2[x]]))
-						#print(total)
-						#print("=================")
+						try:
+							total[x] = total[x]+lst1[x]+lst2[x]
+							total_i1[x] = total_i1[x]+lst1[x]
+							total_i2[x] = total_i2[x]+lst2[x]
+							total_I[x] = total_I[x]+lstI[x]
+							total_S[x] = total_S[x]+lstS[x]
+						except:
+							total = np.concatenate((total, [lst1[x]+lst2[x]]))
+							total_i1 = np.concatenate((total_i1, [lst1[x]]))
+							total_i2 = np.concatenate((total_i2, [lst2[x]]))
+							total_I = np.concatenate((total_I, [lstI[x]]))
+							total_S = np.concatenate((total_S, [lstS[x]]))
 				filename = 'runs/test_'+str(b0)+'_'+str(xi0)+'_'+str(ps)+'.npy'
 				with open(filename, 'wb') as f:
 					np.save(f, total)
