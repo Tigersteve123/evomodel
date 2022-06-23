@@ -15,13 +15,13 @@ class summary:
 	def vis(self):
 		for i in self.run:
 			fig, ax = plt.subplots()
-			im, cbar = heatmap(i, self.mod.brange, self.mod.xirange, vmin=0)
+			im, cbar = heatmap(i, self.mod.brange, self.mod.grange, vmin=0)
 			fig.tight_layout()
 		plt.show()
 
 	def vistotal(self):
 		fig, ax = plt.subplots()
-		im, cbar = heatmap(self.runtotal, self.mod.brange, self.mod.xirange, vmin=0)
+		im, cbar = heatmap(self.runtotal, self.mod.brange, self.mod.grange, vmin=0)
 		fig.tight_layout()
 		plt.show()
 
@@ -30,7 +30,7 @@ class summary:
 		bgreater = np.sum(self.runtotal[6:10])
 		return bgreater > bless
 
-	def evolvedGreaterXi(self):
-		xiless = np.sum(self.runtotal[:, 0:2])
-		xigreater = np.sum(self.runtotal[:, 3:5])
-		return xigreater > xiless
+	def evolvedGreaterG(self):
+		gless = np.sum(self.runtotal[:, 0:2])
+		ggreater = np.sum(self.runtotal[:, 3:5])
+		return ggreater > gless
