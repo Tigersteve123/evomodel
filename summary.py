@@ -33,4 +33,8 @@ class summary:
 	def evolvedGreaterG(self):
 		gless = np.sum(self.runtotal[:, 0:2])
 		ggreater = np.sum(self.runtotal[:, 3:5])
+		self.gDiff = gless-ggreater
 		return ggreater > gless
+
+	def startCoords(self):
+		return self.mod.brange[5], self.mod.grange[2], self.mod.ps

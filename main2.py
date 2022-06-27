@@ -13,8 +13,10 @@ import concurrent.futures as futures
 if __name__ == '__main__':
 	mod = model(0.0006000000000000001, .0001, 11, 0.1, 0.001, 5, .6)
 	total = np.zeros((1, len(mod.brange), len(mod.grange)), dtype=int)
-	total1 = total.copy()
-	total2 = total.copy()
+	total_i1 = total.copy()
+	total_i2 = total.copy()
+	total_I = np.array([])
+	total_S = np.array([])
 	i0_center = np.zeros((len(mod.brange), len(mod.grange)), dtype=int)
 	i0_center[5, 2] = 50
 	for i in range(1000):
@@ -22,16 +24,19 @@ if __name__ == '__main__':
 		for x in range(len(lst1)):
 			try:
 				total[x] = total[x]+lst1[x]+lst2[x]
-				total1[x] = total1[x]+lst1[x]
-				total2[x] = total2[x]+lst2[x]
+				total_i1[x] = total_i1[x]+lst1[x]
+				total_i2[x] = total_i2[x]+lst2[x]
+				total_I[x] = total_I[x]+lstI[x]
+				total_S[x] = total_S[x]+lstS[x]
 			except:
 				total = np.concatenate((total, [lst1[x]+lst2[x]]))
-				total1 = np.concatenate((total1, [lst1[x]]))
-				total2 = np.concatenate((total2, [lst2[x]]))
-	print(np.sum(total), np.sum(total1), np.sum(total2))
-	#filename = 'runs/test_'+str(b0)+'_'+str(g0)+'_'+str(ps)+'.npy'
-	with open('test1.npy', 'wb') as f:
-		np.save(f, total)
+				total_i1 = np.concatenate((total_i1, [lst1[x]]))
+				total_i2 = np.concatenate((total_i2, [lst2[x]]))
+				total_I = np.concatenate((total_I, [lstI[x]]))
+				total_S = np.concatenate((total_S, [lstS[x]]))
+	out_array = np.array([total, total_i1, total_i2, total_I, total_S])
+	with open('test_new.npy', 'wb') as f:
+		np.save(f, out_array)
 
 	#for i in total:
 	#plt.imshow(i, cmap='gray', vmin=0, vmax=255)

@@ -15,7 +15,7 @@ parser.add_argument('--save', '-s', type=bool, help='save figures to file')
 m = parser.parse_args()
 #print(m.matrix)
 
-data = np.load(m.matrix[0])
+data = np.load(m.matrix[0], allow_pickle=True)
 #print(np.sum(data))
 #data = data.astype(float)/1000.0
 
@@ -30,7 +30,10 @@ for i in data:
 		fig.tight_layout()
 plt.show()'''
 
-sum = summary(data, mod=mod)
-sum.vis()
+sum = summary(data[0], mod=mod)
+#sum.vis()
 print(sum.evolvedGreaterB())
-print(sum.evolvedGreaterXi())
+print(sum.evolvedGreaterG())
+print(np.sum(data[1]))
+print(data[4])
+print(data[3])
