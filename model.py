@@ -90,6 +90,6 @@ class model:
 						I1[narray[x]] = I1[narray[x]]+neighborParray[x]
 			lst1.append(I1.copy())
 			lst2.append(I2.copy())
-			lstI.append(I)
+			lstI.append(np.sum(I1)+np.sum(I2))
 			lstS.append(S)
 		return np.array(lst1), np.array(lst2), np.array(lstI), np.array(lstS)
