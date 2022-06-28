@@ -11,16 +11,17 @@ import concurrent.futures as futures
 #mod = model(.001, .001, 3, 0, 0, 1, 1) #"base" Reed-Frost
 
 if __name__ == '__main__':
-	mod = model(0.0006000000000000001, .0001, 11, 0.1, 0.001, 5, .6)
+	mod = model(0.0009000000000000001, .0001, 11, 0.2, 0.001, 5, 1)
 	total = np.zeros((1, len(mod.brange), len(mod.grange)), dtype=int)
 	total_i1 = total.copy()
 	total_i2 = total.copy()
-	total_I = np.array([])
-	total_S = np.array([])
+	total_I = np.array([], dtype=int)
+	total_S = np.array([], dtype=int)
 	i0_center = np.zeros((len(mod.brange), len(mod.grange)), dtype=int)
 	i0_center[5, 2] = 50
 	for i in range(1000):
 		lst1, lst2, lstI, lstS = mod.sim(1500, i0_center.copy())
+#		print(np.sum(lst1, 0), np.sum(lst2, 0), lstI, lstS)
 		for x in range(len(lst1)):
 			try:
 				total[x] = total[x]+lst1[x]+lst2[x]
@@ -35,7 +36,9 @@ if __name__ == '__main__':
 				total_I = np.concatenate((total_I, [lstI[x]]))
 				total_S = np.concatenate((total_S, [lstS[x]]))
 	out_array = np.array([total, total_i1, total_i2, total_I, total_S])
-	with open('test_new.npy', 'wb') as f:
+	print(np.sum(total), np.sum(total_i1), np.sum(total_i2))
+	print(total_I, total_S)
+	with open('test_new2.npy', 'wb') as f:
 		np.save(f, out_array)
 
 	#for i in total:
