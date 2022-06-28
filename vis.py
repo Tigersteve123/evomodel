@@ -31,9 +31,9 @@ for i in data:
 plt.show()'''
 
 sum = summary(data[0], mod=mod)
-#sum.vis()
-#print(sum.evolvedGreaterB())
-#print(sum.evolvedGreaterG())
+sum.vis()
+print(sum.evolvedGreaterB())
+print(sum.evolvedGreaterG())
 print([np.sum(x) for x in data[0]])
 print([np.sum(x) for x in data[1]])
 print([np.sum(x) for x in data[2]])

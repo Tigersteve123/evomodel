@@ -15,11 +15,11 @@ if __name__ == '__main__':
 	total = np.zeros((1, len(mod.brange), len(mod.grange)), dtype=int)
 	total_i1 = total.copy()
 	total_i2 = total.copy()
-	total_I = np.array([])
-	total_S = np.array([])
+	total_I = np.array([], dtype=int)
+	total_S = total_I.copy()
 	i0_center = np.zeros((len(mod.brange), len(mod.grange)), dtype=int)
 	i0_center[5, 2] = 50
-	for i in range(1000):
+	for i in range(1):
 		lst1, lst2, lstI, lstS = mod.sim(1500, i0_center.copy())
 #		print(np.sum(lst1, 0), np.sum(lst2, 0), lstI, lstS)
 		for x in range(len(lst1)):
