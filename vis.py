@@ -13,15 +13,16 @@ parser.add_argument('matrix', metavar='mat', type=str, nargs=1, help='path to nu
 parser.add_argument('--save', '-s', type=bool, help='save figures to file')
 
 m = parser.parse_args()
-#print(m.matrix)
 
-data = np.load(m.matrix[0], allow_pickle=True)
-#print(np.sum(data))
-#data = data.astype(float)/1000.0
+filename = m.matrix[0]
 
-#print(data)
+data = np.load(filename, allow_pickle=True)
 
-mod = model(.0005, .0001, 11, 0.5, 0.001, 5, .5)
+params = filename.split('_')[1:]
+params[2] = params[2][:-4]
+params = [float(x) for x in params]
+mod = model(params[0], .0001, 11, params[1], 0.001, 5, params[2])
+
 '''
 for i in data:
 	if np.sum(i) > 0:
