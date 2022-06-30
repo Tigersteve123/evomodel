@@ -34,5 +34,5 @@ print([sum(x)/len(x) for x in zip(*runs_i)])
 std_dis = [np.std(x) for x in zip(*runs_i)]
 print(std_dis)
 plt.plot([x for x in range(len(average_dis))], average_dis)
-plt.plot([x for x in range(len(std_dis))], std_dis)
+#plt.plot([x for x in range(len(std_dis))], std_dis)
 plt.show()
