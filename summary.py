@@ -12,16 +12,17 @@ class summary:
 		elif mod != None: self.mod = mod
 		else: self.mod = model(.0005, .0001, 11, .5, .001, 5, .5)
 
-	def vis(self, savedirec=None):
+	def vis(self, savedirec=None, show=True):
 		for i in range(len(self.run)):
 			fig, ax = plt.subplots()
-			im, cbar = heatmap(self.run[i], np.around(self.mod.brange, decimals=5), np.around(self.mod.grange, decimals=5), vmin=0)
+			im, cbar = heatmap(self.run[i], np.around(self.mod.brange, decimals=5), np.around(self.mod.grange, decimals=5), vmin=0, cmap='Greys')
 			ax.set_xlabel("Latency")
 			ax.set_ylabel("Infectivity")
 			fig.tight_layout()
-			out_path = savedirec+'/period_'+str(i)+'.png'
-			if savedirec: plt.savefig(out_path)
-		plt.show()
+			if savedirec:
+				out_path = savedirec+'/period_'+str(i)+'.png'
+				plt.savefig(out_path)
+		if show: plt.show()
 
 	def vistotal(self):
 		fig, ax = plt.subplots()
