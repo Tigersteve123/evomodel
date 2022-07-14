@@ -3,6 +3,7 @@ import os
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 import copy
+from scipy.stats import chisquare
 
 from summary import summary
 from model import model
@@ -46,10 +47,12 @@ ax.set_ylabel("gamma")
 ax.set_zlabel("prob. of staying")'''
 ax = plt.axes()
 for i in range(3):
-    ax.hist([notGreaterArr_t[i], expArr_t[i]], bins=9, stacked=True, label=labels)
+    numInBins = ax.hist([notGreaterArr_t[i], expArr_t[i]], bins=9, stacked=True, label=labels)
+    print(chisquare(numInBins[0][0]))
+    print(sorted(numInBins[0][0]))
     ax.set_xlabel(['beta', 'gamma', 'ps'][i])
     ax.set_ylabel('Runs')
     ax.legend()
     #plt.show()
-    plt.savefig('/tmp/ramdisk/'+['beta', 'gamma', 'ps'][i]+'.png')
+    #plt.savefig('/tmp/ramdisk/'+['beta', 'gamma', 'ps'][i]+'.png')
     ax.clear()
