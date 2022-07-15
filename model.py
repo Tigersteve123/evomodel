@@ -29,6 +29,7 @@ class model:
 		lst2 = lst1.copy()
 		lstS = [s]
 		lstI = [np.sum(i0)]
+		lstAvg = []
 		I1 = i0 #tracks infected in period 1
 		I2 = np.zeros((len(self.brange), len(self.grange)), dtype=int)
 		p = np.zeros((len(self.brange), len(self.grange)), dtype=float) #p(i, j)
@@ -62,6 +63,9 @@ class model:
 			I1[i, j] = st[i, j]+d[i, j] #eq. 8
 
 		while (S > 0) and (np.sum(I1)+np.sum(I2) > 0): #infected and susceptible > 0
+			totalSplitI = I1+I2
+			averageB = np.sum(np.sum(totalSplitI, 1)*self.brange)/np.sum(totalSplitI)
+			averageG = np.sum(np.sum(totalSplitI, 0)*self.grange)/np.sum(totalSplitI)
 			for i in range(len(self.brange)):
 				for j in range(len(self.grange)):
 					eq1(i, j)
@@ -88,8 +92,9 @@ class model:
 					#print(narray)
 					for x in range(len(narray)):
 						I1[narray[x]] = I1[narray[x]]+neighborParray[x]
-			lst1.append(I1.copy())
+						lst1.append(I1.copy())
 			lst2.append(I2.copy())
 			lstI.append(np.sum(I1)+np.sum(I2))
 			lstS.append(S)
-		return np.array(lst1), np.array(lst2), np.array(lstI), np.array(lstS)
+			lstAvg.append((averageB.copy(), averageG.copy()))
+		return np.array(lst1), np.array(lst2), np.array(lstI), np.array(lstS), np.array(lstAvg)
