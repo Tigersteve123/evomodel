@@ -20,9 +20,9 @@ if __name__ == '__main__':
 	i0_center = np.zeros((len(mod.brange), len(mod.grange)), dtype=int)
 	i0_center[5, 2] = 50
 	all_listAv = []
-	for i in range(1):
-		lst1, lst2, lstI, lstS, lstAv = mod.sim(1500000, i0_center.copy())
-		print(lst1, lst2, lstI, lstS, lstAv)
+	for i in range(100):
+		lst1, lst2, lstI, lstS, lstAv, lstCuAv = mod.sim(1500000, i0_center.copy())
+		#print(lst1, lst2, lstI, lstS, lstAv)
 		'''for x in range(len(lst1)):
 			try:
 				total[x] = total[x]+lst1[x]+lst2[x]
@@ -44,9 +44,9 @@ if __name__ == '__main__':
 				total_S[x] = total_S[x]+lstS[x]
 			except:
 				total_S = np.concatenate((total_S, [lstS[x]]))'''
-		all_listAv.append(lstAv.copy())
+		all_listAv.append(lstCuAv.copy())
 	#output_lst = [total, total_i1, total_i2, total_I, total_S]
 	#out_array = np.empty(len(output_lst), dtype=object)
 	#out_array[:] = output_lst
-	with open('lstAv_large.npy', 'wb') as f:
+	with open('lstAv_large_cu.npy', 'wb') as f:
 		np.save(f, all_listAv)

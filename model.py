@@ -30,6 +30,7 @@ class model:
 		lstS = [s]
 		lstI = [np.sum(i0)]
 		lstAvg = []
+		lstCumAvg = []
 		I1 = i0 #tracks infected in period 1
 		I2 = np.zeros((len(self.brange), len(self.grange)), dtype=int)
 		p = np.zeros((len(self.brange), len(self.grange)), dtype=float) #p(i, j)
@@ -40,6 +41,7 @@ class model:
 		d = I2.copy() #delta(i, j)->(i', j')
 		lst1.append(I1.copy()) #current period
 		lst2.append(I2.copy())
+		totalSplitTotal = np.zeros((len(self.brange), len(self.grange)), dtype=int)
 
 		def eq1(i, j):
 			I2[i, j] = np.random.binomial(lst1[-1][i, j], self.grange[j])
@@ -64,8 +66,11 @@ class model:
 
 		while (S > 0) and (np.sum(I1)+np.sum(I2) > 0): #infected and susceptible > 0
 			totalSplitI = I1+I2
+			totalSplitTotal += I1+I2
 			averageB = np.sum(np.sum(totalSplitI, 1)*self.brange)/np.sum(totalSplitI)
 			averageG = np.sum(np.sum(totalSplitI, 0)*self.grange)/np.sum(totalSplitI)
+			averageBCum = np.sum(np.sum(totalSplitTotal, 1)*self.brange)/np.sum(totalSplitTotal)
+			averageGCum = np.sum(np.sum(totalSplitTotal, 0)*self.grange)/np.sum(totalSplitTotal)
 			for i in range(len(self.brange)):
 				for j in range(len(self.grange)):
 					eq1(i, j)
@@ -97,4 +102,5 @@ class model:
 			lstI.append(np.sum(I1)+np.sum(I2))
 			lstS.append(S)
 			lstAvg.append((averageB.copy(), averageG.copy()))
-		return np.array(lst1), np.array(lst2), np.array(lstI), np.array(lstS), np.array(lstAvg)
+			lstCumAvg.append((averageBCum, averageGCum))
+		return np.array(lst1), np.array(lst2), np.array(lstI), np.array(lstS), np.array(lstAvg), np.array(lstCumAvg)

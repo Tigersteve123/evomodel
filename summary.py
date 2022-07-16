@@ -48,5 +48,7 @@ class summary:
 		for i in avgArray:
 			i = np.transpose(i)
 			plt.plot(i[0], i[1], c='gray')
-		print(avgArray)
+		#print([avgArray[0][0]], [avgArray[0][1]])
+		plt.plot(avgArray[0][0][0], avgArray[0][0][1], c='black', marker='o')
+		#print(avgArray)
 		plt.show()
