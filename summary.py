@@ -43,3 +43,10 @@ class summary:
 
 	def startCoords(self):
 		return self.mod.brange[5], self.mod.grange[2], self.mod.ps
+		
+	def visAverages(self, avgArray):
+		for i in avgArray:
+			i = np.transpose(i)
+			plt.plot(i[0], i[1], c='gray')
+		print(avgArray)
+		plt.show()

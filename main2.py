@@ -11,7 +11,7 @@ import concurrent.futures as futures
 #mod = model(.001, .001, 3, 0, 0, 1, 1) #"base" Reed-Frost
 
 if __name__ == '__main__':
-	mod = model(0.0001, .0001, 11, 0.5, 0.001, 5, .9)
+	mod = model(0.0000001, .0000001, 11, 0.5, 0.001, 5, .9)
 	total = np.zeros((1, len(mod.brange), len(mod.grange)), dtype=int)
 	total_i1 = total.copy()
 	total_i2 = total.copy()
@@ -19,8 +19,10 @@ if __name__ == '__main__':
 	total_S = total_I.copy()
 	i0_center = np.zeros((len(mod.brange), len(mod.grange)), dtype=int)
 	i0_center[5, 2] = 50
+	all_listAv = []
 	for i in range(1):
-		lst1, lst2, lstI, lstS, lstAv = mod.sim(1500, i0_center.copy())
+		lst1, lst2, lstI, lstS, lstAv = mod.sim(1500000, i0_center.copy())
+		print(lst1, lst2, lstI, lstS, lstAv)
 		'''for x in range(len(lst1)):
 			try:
 				total[x] = total[x]+lst1[x]+lst2[x]
@@ -42,9 +44,9 @@ if __name__ == '__main__':
 				total_S[x] = total_S[x]+lstS[x]
 			except:
 				total_S = np.concatenate((total_S, [lstS[x]]))'''
-	print(lstAv)
-	'''output_lst = [total, total_i1, total_i2, total_I, total_S]
-	out_array = np.empty(len(output_lst), dtype=object)
-	out_array[:] = output_lst
-	with open('test_average.npy', 'wb') as f:
-		np.save(f, out_array)'''
+		all_listAv.append(lstAv.copy())
+	#output_lst = [total, total_i1, total_i2, total_I, total_S]
+	#out_array = np.empty(len(output_lst), dtype=object)
+	#out_array[:] = output_lst
+	with open('lstAv_large.npy', 'wb') as f:
+		np.save(f, all_listAv)
