@@ -59,6 +59,7 @@ class summary:
 		ends = np.transpose(np.array([(i[-1][0], i[-1][1], len(i)) for i in avgArray]))
 		#print(ends)
 		plt.scatter(ends[0], ends[1], c=ends[2], cmap='gray')
+		plt.plot(avgArray[0][0][0], avgArray[0][0][1], c='blue', marker='o')
 		plt.xlabel('beta')
 		plt.ylabel('gamma')
 		plt.show()
