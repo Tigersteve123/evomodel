@@ -62,32 +62,3 @@ if __name__ == '__main__':
 				filename = 'runs/test_'+str(b0)+'_'+str(g0)+'_'+str(ps)+'.npy'
 				with open(filename, 'wb') as f:
 					np.save(f, out_array)
-
-	#for i in total:
-	#plt.imshow(i, cmap='gray', vmin=0, vmax=255)
-	#	fig, ax = plt.subplots()
-	#	im, cbar = heatmap(i, mod.brange, mod.grange)
-	#	fig.tight_layout()
-	#	plt.show()
-	#print(lst1)
-	#print(lst2)
-
-'''mod = model(.0005, .0001, 10, 0.5, 0.001, 5, .5)
-i0 = np.ones((len(mod.brange), len(mod.grange)), dtype=int) #test case
-print(mod.sim(1500, i0))'''
-
-
-'''runs_I = []
-runs_S = []
-for i in range(100):
-	lst1, lst2, lstI, lstS = mod.sim((0, 0), 60, 1500)
-	runs_I.append(lstI)
-	runs_S.append(lstS)
-#plt.hist([max([i[0] for i in x]) for x in runs])
-average_dis = [sum(x)/len(x) for x in zip(*runs_I)]
-std_dis = [np.std(x) for x in zip(*runs_I)]
-print(average_dis)
-print(std_dis)
-plt.plot([x for x in range(len(average_dis))], average_dis)
-plt.plot([x for x in range(len(std_dis))], std_dis)
-plt.show()'''
