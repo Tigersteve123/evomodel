@@ -24,7 +24,7 @@ class model:
 		neighbors = [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]
 		return [x for x in neighbors if (x[0] in range(len(self.brange)) and x[1] in range(len(self.grange)))]
 
-	def sim(self, s:int, i0:np.ndarray):
+	def sim(self, s:int, i0:np.ndarray, tc=0, acc=0):
 		lst1 = [] #history of infected
 		lst2 = lst1.copy()
 		lstS = [s]
@@ -97,7 +97,7 @@ class model:
 					#print(narray)
 					for x in range(len(narray)):
 						I1[narray[x]] = I1[narray[x]]+neighborParray[x]
-						lst1.append(I1.copy())
+			lst1.append(I1.copy())
 			lst2.append(I2.copy())
 			lstI.append(np.sum(I1)+np.sum(I2))
 			lstS.append(S)

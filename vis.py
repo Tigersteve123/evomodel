@@ -23,7 +23,7 @@ if 'test' in filename:
     params = filename.split('_')[1:]
     params[2] = params[2][:-4]
     params = [float(x) for x in params]
-    mod = model(params[0], .0001, 11, params[1], 0.001, 5, params[2])
+    mod = model(params[0], .0000001, 11, params[1], 0.05, 5, params[2])
 else: mod = model(0.0000001, .0000001, 11, 0.4, 0.05, 5, .9)
 
 '''
