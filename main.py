@@ -33,7 +33,7 @@ if __name__ == '__main__':
 				i0_center[5, 2] = 50
 				#print(i0_center)
 				for i in range(1000):
-					lst1, lst2, lstI, lstS, lstAv = mod.sim(1500, i0_center.copy())
+					lst1, lst2, lstI, lstS, lstAv, lstCuAv = mod.sim(1500, i0_center.copy())
 #					print(np.sum(lst1, 0), np.sum(lst2, 0), lstI, lstS)
 					for x in range(len(lst1)):
 						try:

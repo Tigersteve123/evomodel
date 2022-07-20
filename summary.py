@@ -44,7 +44,8 @@ class summary:
 	def startCoords(self):
 		return self.mod.brange[5], self.mod.grange[2], self.mod.ps
 		
-	def visAverages(self, avgArray):
+	def visAverages(self, avgArray, savedirec=None, show=True):
+		plt.clf()
 		for i in avgArray:
 			i = np.transpose(i)
 			plt.plot(i[0], i[1], c='gray')
@@ -53,13 +54,20 @@ class summary:
 		plt.xlabel('beta')
 		plt.ylabel('gamma')
 		#print(avgArray)
-		plt.show()
+		if savedirec:
+			out_path = savedirec+'/average_cumulative.png'
+			plt.savefig(out_path)
+		if show: plt.show()
 	
-	def visEndAverages(self, avgArray):
+	def visEndAverages(self, avgArray, savedirec=None, show=True):
+		plt.clf()
 		ends = np.transpose(np.array([(i[-1][0], i[-1][1], len(i)) for i in avgArray]))
 		#print(ends)
 		plt.scatter(ends[0], ends[1], c=ends[2], cmap='gray')
 		plt.plot(avgArray[0][0][0], avgArray[0][0][1], c='blue', marker='o')
 		plt.xlabel('beta')
 		plt.ylabel('gamma')
-		plt.show()
+		if savedirec:
+			out_path = savedirec+'/average_ends.png'
+			plt.savefig(out_path)
+		if show: plt.show()
