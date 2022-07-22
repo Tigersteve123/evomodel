@@ -78,7 +78,7 @@ class model:
 			QI1 = np.zeros((len(self.brange), len(self.grange)), dtype=int)
 			QI2 = QI1.copy()
 			
-			tau = tc/(np.sum(totalSplitI)+S) #eq. 11
+			tau = min(tc/(np.sum(totalSplitI)+S), 1) #eq. 11
 			TS = np.random.binomial(S, tau) #eq. 12
 			QS1 = np.random.binomial(TS, 1-acc) #eq. 13
 			QS2 = lstQS[-1] #eq. 14
