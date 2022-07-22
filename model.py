@@ -31,6 +31,9 @@ class model:
 		lstI = [np.sum(i0)]
 		lstAvg = []
 		lstCumAvg = []
+		lstQS = [0]
+		lstQI1 = [np.zeros((len(self.brange), len(self.grange)), dtype=int)]
+		lstQI2 = [np.zeros((len(self.brange), len(self.grange)), dtype=int)]
 		I1 = i0 #tracks infected in period 1
 		I2 = np.zeros((len(self.brange), len(self.grange)), dtype=int)
 		p = np.zeros((len(self.brange), len(self.grange)), dtype=float) #p(i, j)
@@ -71,11 +74,41 @@ class model:
 			averageG = np.sum(np.sum(totalSplitI, 0)*self.grange)/np.sum(totalSplitI)
 			averageBCum = np.sum(np.sum(totalSplitTotal, 1)*self.brange)/np.sum(totalSplitTotal)
 			averageGCum = np.sum(np.sum(totalSplitTotal, 0)*self.grange)/np.sum(totalSplitTotal)
+			
+			QI1 = np.zeros((len(self.brange), len(self.grange)), dtype=int)
+			QI2 = QI1.copy()
+			
+			tau = tc/(np.sum(totalSplitI)+S) #eq. 11
+			TS = np.random.binomial(S, tau) #eq. 12
+			QS1 = np.random.binomial(TS, 1-acc) #eq. 13
+			QS2 = lstQS[-1] #eq. 14
+			S = lstS[-1]-QS1+QS2 #eq. 15
+			
+			'''for i in range(len(self.brange)):
+				for j in range(len(self.grange)):
+					TI1 = np.random.binomial(I1[i, j], tau) #eq. 16
+					Q1 = np.random.binomial(TI1, acc) #eq. 17
+					I1[i, j] -= Q1 #eq. 18
+					QI1[i, j] = Q1
+					TI2 = np.random.binomial(I2[i, j], tau)
+					Q2 = np.random.binomial(TI2, acc)
+					I2[i, j] -= Q2
+					QI2[i, j] = Q2'''
+						
+			
 			for i in range(len(self.brange)):
 				for j in range(len(self.grange)):
+					TI1 = np.random.binomial(I1[i, j], tau) #eq. 16
+					Q1 = np.random.binomial(TI1, acc) #eq. 17
+					I1[i, j] -= Q1 #eq. 18
+					QI1[i, j] = Q1
+					TI2 = np.random.binomial(I2[i, j], tau)
+					Q2 = np.random.binomial(TI2, acc)
+					I2[i, j] -= Q2
+					QI2[i, j] = Q2
 					eq1(i, j)
 			I = np.random.binomial(S, 1-math.prod((np.subtract(1,self.brange))**(np.sum(I1, 1)+np.sum(I2, 1)))) #eq. 2
-			S = lstS[-1]-I #eq. 3
+			S = S-I #eq. 3
 			Isum = np.sum(I1, 1)+np.sum(I2, 1)
 			denom5 = np.sum(self.brange*Isum) #eq. 5 denominator
 			if denom5 > 0: #we do need this check
@@ -103,4 +136,7 @@ class model:
 			lstS.append(S)
 			lstAvg.append((averageB.copy(), averageG.copy()))
 			lstCumAvg.append((averageBCum, averageGCum))
-		return np.array(lst1), np.array(lst2), np.array(lstI), np.array(lstS), np.array(lstAvg), np.array(lstCumAvg)
+			lstQS.append(QS1)
+			lstQI1.append(QI1)
+			lstQI2.append(QI2)
+		return np.array(lst1), np.array(lst2), np.array(lstI), np.array(lstS), np.array(lstAvg), np.array(lstCumAvg), np.array(lstQS), np.array(lstQI1), np.array(lstQI2)

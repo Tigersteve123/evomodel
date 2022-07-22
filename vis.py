@@ -21,7 +21,7 @@ data = np.load(filename, allow_pickle=True)
 
 if 'test' in filename:
     params = filename.split('_')[1:]
-    params[2] = params[2][:-4]
+    params[-1] = params[-1][:-4]
     params = [float(x) for x in params]
     mod = model(params[0], .0000001, 11, params[1], 0.05, 5, params[2])
 else: mod = model(0.0000001, .0000001, 11, 0.4, 0.05, 5, .9)
@@ -34,12 +34,12 @@ for i in data:
 		fig.tight_layout()
 plt.show()'''
 
-sum = summary(data[0], mod=mod)
+summ = summary(data[0], mod=mod)
 
-if m.savepath: sum.vis(m.savepath, show=m.show)
-else: sum.vis(show=m.show)
-'''print(sum.evolvedGreaterB())
-print(sum.evolvedGreaterG())
+if m.savepath: summ.vis(m.savepath, show=m.show)
+else: summ.vis(show=m.show)
+'''print(summ.evolvedGreaterB())
+print(summ.evolvedGreaterG())
 print([np.sum(x) for x in data[0]])
 print([np.sum(x) for x in data[1]])
 print([np.sum(x) for x in data[2]])
