@@ -70,5 +70,6 @@ if __name__ == '__main__':
 			out_array[:] = output_lst
 			#filename = 'runs/test_'+str(b0)+'_'+str(g0)+'_'+str(ps)+'.npy'
 			filename = 'testQuarantineTc'+str(tc)+'Acc'+str(acc)+'_'+str(b0)+'_'+str(g0)+'_0.9.npy'
+			print(filename)
 			with open(filename, 'wb') as f:
 				np.save(f, out_array)
