@@ -15,7 +15,7 @@ class summary:
 	def vis(self, savedirec=None, show=True):
 		for i in range(len(self.run)):
 			fig, ax = plt.subplots()
-			im, cbar = heatmap(self.run[i], np.around(self.mod.brange, decimals=5), np.around(self.mod.grange, decimals=5), vmin=0, cmap='Greys')
+			im, cbar = heatmap(self.run[i], np.around(self.mod.brange, decimals=7), np.around(self.mod.grange, decimals=5), vmin=0, cmap='Greys')
 			ax.set_xlabel("Latency")
 			ax.set_ylabel("Infectivity")
 			fig.tight_layout()

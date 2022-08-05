@@ -22,14 +22,14 @@ for file in os.listdir(directory):
 	params = filename.split('_')[1:]
 	params[2] = params[2][:-4]
 	params = [float(x) for x in params]
-	mod = model(params[0], .0001, 11, params[1], 0.001, 5, params[2])
+	mod = model(params[0], .0000001, 11, params[1], 0.05, 5, params[2])
 	data = np.load(filename, allow_pickle=True)
-	sum = summary(data[1], mod=mod)
-	if not(sum.evolvedGreaterB() and sum.evolvedGreaterG()):
+	summ = summary(data[1], mod=mod)
+	if not(summ.evolvedGreaterB() and summ.evolvedGreaterG()):
 		str1 = filename
-		notGreaterArr.append(sum.startCoords())
-		#print(sum.gDiff)
-	else: expArr.append(sum.startCoords())
+		notGreaterArr.append(summ.startCoords())
+		#print(summ.gDiff)
+	else: expArr.append(summ.startCoords())
 	cnt += 1
 print(len(notGreaterArr)/cnt)
 #for x in sorted(notGreaterArr):
@@ -46,7 +46,7 @@ ax.set_xlabel("beta")
 ax.set_ylabel("gamma")
 ax.set_zlabel("prob. of staying")'''
 ax = plt.axes()
-for i in range(3):
+'''for i in range(3):
     numInBins = ax.hist([notGreaterArr_t[i], expArr_t[i]], bins=9, stacked=True, label=labels)
     print(chisquare(numInBins[0][0]))
     print(sorted(numInBins[0][0]))
@@ -55,4 +55,4 @@ for i in range(3):
     ax.legend()
     #plt.show()
     #plt.savefig('/tmp/ramdisk/'+['beta', 'gamma', 'ps'][i]+'.png')
-    ax.clear()
+    ax.clear()'''
