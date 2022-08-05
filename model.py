@@ -32,7 +32,7 @@ class model:
 		lstAvg = []
 		lstCumAvg = []
 		lstQS = [0]
-		lstQI1 = [9]
+		lstQI1 = [0]
 		lstQI2 = [np.zeros((len(self.brange), len(self.grange)), dtype=int)]
 		I1 = i0 #tracks infected in period 1
 		I2 = np.zeros((len(self.brange), len(self.grange)), dtype=int)

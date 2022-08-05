@@ -24,7 +24,7 @@ if __name__ == '__main__':
 			total_I = np.array([], dtype=int)
 			total_S = np.array([], dtype=int)
 			total_QS = np.array([], dtype=int)
-			total_QI1 = total.copy()
+			total_QI1 = total_I.copy()
 			total_QI2 = total.copy()
 			i0_center = np.zeros((len(mod.brange), len(mod.grange)), dtype=int)
 			i0_center[5, 2] = 50
