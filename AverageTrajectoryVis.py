@@ -4,9 +4,13 @@ import matplotlib.pyplot as plt
 from model import model
 from summary import summary
 
-summ = summary(np.load('test_large.npy'), mod=model(0.0000001, .0000001, 11, 0.5, 0.001, 5, .9))
+b0 = 0.0000000005; g0 = 0.4
 
-run = np.load('lstAv_large_cu.npy', allow_pickle=True)
+#summ = summary(np.load('test_large.npy'), mod=model(0.0000001, .0000001, 11, 0.5, 0.001, 5, .9))
+summ = summary(np.load('test_large.npy'), mod=model(b0, b0, 11, g0, 0.05, 5, .9))
+
+run = np.load('lstAv_large_cu_new.npy', allow_pickle=True)
+#print(run)
 
 summ.visAverages(run, savedirec='/tmp/ramdisk', show=False)
 summ.visEndAverages(run, savedirec='/tmp/ramdisk', show=False)

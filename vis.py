@@ -38,6 +38,9 @@ summ = summary(data[0], mod=mod)
 
 if m.savepath: summ.vis(m.savepath, show=m.show)
 else: summ.vis(show=m.show)
+
+#print(np.sum(data[1]))
+#print(data[4][0]-data[4][-1]+data[3][0]) #this is wrong
 '''print(summ.evolvedGreaterB())
 print(summ.evolvedGreaterG())
 print([np.sum(x) for x in data[0]])
