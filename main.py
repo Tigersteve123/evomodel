@@ -16,9 +16,9 @@ import concurrent.futures as futures
 if __name__ == '__main__':
 	b0 = 0.0000001; g0 = 0.4
 	for tc in range(0, 1500000, 50000):
-		acc = 0.95
-		#for acc in np.arange(0, 1, .1):
-		if acc == 0.95:
+		#acc = 0.95
+		for acc in np.arange(0, 1, .1):
+		#if acc == 0.95:
 			mod = model(b0, .0000001, 11, g0, 0.05, 5, .9)
 			total = np.zeros((1, len(mod.brange), len(mod.grange)), dtype=int)
 			total_i1 = total.copy()
