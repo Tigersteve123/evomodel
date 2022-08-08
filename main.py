@@ -67,7 +67,7 @@ if __name__ == '__main__':
 						total_QI2[x] = total_QI2[x]+lstQI2[x]
 					except:
 						total_QI2 = np.concatenate((total_QI2, [lstQI2[x]]))
-					total+t += t
+					total_t += t
 			output_lst = [total, total_i1, total_i2, total_I, total_S, total_QS, total_QI1, total_QI2, total_t]
 			out_array = np.empty(len(output_lst), dtype=object)
 			out_array[:] = output_lst
