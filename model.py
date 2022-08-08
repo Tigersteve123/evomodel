@@ -45,6 +45,7 @@ class model:
 		lst1.append(I1.copy()) #current period
 		lst2.append(I2.copy())
 		totalSplitTotal = np.zeros((len(self.brange), len(self.grange)), dtype=int)
+		t = 0
 
 		def eq1(i, j):
 			I2[i, j] = np.random.binomial(lst1[-1][i, j], self.grange[j])
@@ -131,4 +132,5 @@ class model:
 			lstQS.append(QS1)
 			lstQI1.append(QI)
 			lstQI2.append(QI2)
-		return np.array(lst1), np.array(lst2), np.array(lstI), np.array(lstS), np.array(lstAvg), np.array(lstCumAvg), np.array(lstQS), np.array(lstQI1), np.array(lstQI2)
+			t += 1
+		return np.array(lst1), np.array(lst2), np.array(lstI), np.array(lstS), np.array(lstAvg), np.array(lstCumAvg), np.array(lstQS), np.array(lstQI1), np.array(lstQI2), t

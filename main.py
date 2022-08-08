@@ -30,8 +30,9 @@ if __name__ == '__main__':
 			total_QI2 = total.copy()
 			i0_center = np.zeros((len(mod.brange), len(mod.grange)), dtype=int)
 			i0_center[5, 2] = 50
+			total_t = 0
 			for i in range(1000):
-				lst1, lst2, lstI, lstS, lstAv, lstCuAv, lstQS, lstQI1, lstQI2 = mod.sim(1500000, i0_center.copy(), tc, acc)
+				lst1, lst2, lstI, lstS, lstAv, lstCuAv, lstQS, lstQI1, lstQI2, t = mod.sim(1500000, i0_center.copy(), tc, acc)
 				for x in range(len(lst1)):
 					#lists = [[total, lst1+lst2], [total_i1, lst1], [total_i2, lst2], [total_I, lstI], [total_S, lstS]]
 					try:
@@ -66,8 +67,8 @@ if __name__ == '__main__':
 						total_QI2[x] = total_QI2[x]+lstQI2[x]
 					except:
 						total_QI2 = np.concatenate((total_QI2, [lstQI2[x]]))
-					
-			output_lst = [total, total_i1, total_i2, total_I, total_S, total_QS, total_QI1, total_QI2]
+					total+t += t
+			output_lst = [total, total_i1, total_i2, total_I, total_S, total_QS, total_QI1, total_QI2, total_t]
 			out_array = np.empty(len(output_lst), dtype=object)
 			out_array[:] = output_lst
 			#filename = 'runs/test_'+str(b0)+'_'+str(g0)+'_'+str(ps)+'.npy'
