@@ -40,7 +40,7 @@ for file in os.listdir(directory):
 			averageGCum = np.sum(np.sum(totalSplitTotal, 0)*mod.grange)/np.sum(totalSplitTotal)
 			lstAvg.append((averageB.copy(), averageG.copy()))
 			lstCumAvg.append((averageBCum, averageGCum))
-	runsArr.append((lstCumAvg[-1][0], lstCumAvg[-1][1], len(run), int(tc), round(float(acc), 2), np.sum(data[1]))) #ending average beta, ending average gamma, total length, capacity, accuracy, total infected
+	runsArr.append((lstCumAvg[-1][0], lstCumAvg[-1][1], len(run), int(tc), round(float(acc), 2), np.sum(data[1]), data[8])) #ending average beta, ending average gamma, total length, capacity, accuracy, total infected, run length
 	avgArr.append(lstAvg)
 runsT = np.transpose(runsArr)
 runs50 = np.transpose(sorted([x for x in runsArr if x[4] == .5], key=lambda x:x[3]))
@@ -48,7 +48,7 @@ runs70 = np.transpose(sorted([x for x in runsArr if x[4] == .7], key=lambda x:x[
 runs95 = np.transpose(sorted([x for x in runsArr if x[4] == .9], key=lambda x:x[3]))
 
 fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
-ax1 = fig.add_subplot(2, 2, 1, projection='3d')
+'''ax1 = fig.add_subplot(2, 2, 1, projection='3d')
 ax1.scatter(runsT[3], runsT[4], runsT[5])#, c=runsT[3], cmap='gray')
 ax1.set_xlabel('test capacity')
 ax1.set_ylabel('accuracy')
@@ -61,6 +61,17 @@ for i in sorted(set(runsT[3])):
 ax2.set_xlabel('test accuracy')
 #ax2.scatter(runsT[4], runsT[5], c=runsT[3])
 ax2.set_ylabel('total infected')
+ax2.legend(range(400000, 650000, 50000))'''
+for i in sorted(set(runsT[3])):
+	filtered = np.transpose(sorted([x for x in runsArr if x[3] == i], key=lambda x: x[4]))
+	if i > 350000 and i < 650000:
+		ax1.plot(filtered[4], filtered[1])
+		ax2.plot(filtered[4], filtered[0])
+ax1.set_xlabel('accuracy')
+ax1.set_ylabel('average gamma')
+ax2.set_xlabel('accuracy')
+ax2.set_ylabel('average beta')
+ax1.legend(range(400000, 650000, 50000))
 ax2.legend(range(400000, 650000, 50000))
 #ax3 = plt.axes()
 ax3.set_xlabel('test capacity')
@@ -76,4 +87,11 @@ ax4.plot(runs70[3], runs70[0])
 ax4.plot(runs95[3], runs95[0])
 ax4.legend(['50%', '70%', '95%'])
 ax4.set_ylabel('average beta')
+fig, axs = plt.subplots(2, 2)
+axs[0][0].plot(runsT[3], runsT[8], c=runsT[4]) #capacity vs length
+axs[0][0].set_xlabel('test capacity')
+axs[0][0].set_ylabel('run length')
+axs[0][1].plot(runsT[4], runsT[8], c=runsT[3]) #accuracy vs length
+axs[0][1].set_xlabel('accuracy')
+axs[0][1].set_ylabel('run length')
 plt.show()
