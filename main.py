@@ -16,9 +16,9 @@ import concurrent.futures as futures
 if __name__ == '__main__':
 	b0 = 0.0000001; g0 = 0.4
 	for tc in range(0, 1500000, 50000):
-		#acc = 0.95
-		for acc in np.arange(0, 1, .1):
-		#if acc == 0.95:
+		acc = 0.95
+		#for acc in np.arange(0, 1, .1):
+		if acc == 0.95:
 			mod = model(b0, .0000001, 11, g0, 0.05, 5, .9)
 			total = np.zeros((1, len(mod.brange), len(mod.grange)), dtype=int)
 			total_i1 = total.copy()
@@ -30,7 +30,7 @@ if __name__ == '__main__':
 			total_QI2 = total.copy()
 			i0_center = np.zeros((len(mod.brange), len(mod.grange)), dtype=int)
 			i0_center[5, 2] = 50
-			total_t = 0
+			total_t = []
 			for i in range(1000):
 				lst1, lst2, lstI, lstS, lstAv, lstCuAv, lstQS, lstQI1, lstQI2, t = mod.sim(1500000, i0_center.copy(), tc, acc)
 				for x in range(len(lst1)):
@@ -67,7 +67,7 @@ if __name__ == '__main__':
 						total_QI2[x] = total_QI2[x]+lstQI2[x]
 					except:
 						total_QI2 = np.concatenate((total_QI2, [lstQI2[x]]))
-				total_t += t
+				total_t.append(t)
 			output_lst = [total, total_i1, total_i2, total_I, total_S, total_QS, total_QI1, total_QI2, total_t]
 			out_array = np.empty(len(output_lst), dtype=object)
 			out_array[:] = output_lst
