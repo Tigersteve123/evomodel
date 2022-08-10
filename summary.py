@@ -71,3 +71,19 @@ class summary:
 			out_path = savedirec+'/average_ends.png'
 			plt.savefig(out_path)
 		if show: plt.show()
+	
+	def plot(self, ax, param1, param2, xlabel, ylabel, style='scatter', color=None, legend=None, savedirec=None, show=False):
+		ax.set_xlabel(xlabel)
+		ax.set_ylabel(ylabel)
+		if style == 'scatter':
+			if color is not None: ax.scatter(param1, param2, c=color)
+			else: ax.scatter(param1, param2)
+		elif style == 'plot':
+			if color is not None: ax.plot(param1, param2, c=color)
+			else: ax.plot(param1, param2)
+		else: raise ValueError('invalid plot type')
+		if legend:
+			ax.legend(legend)
+		if savedirec:
+			out_path = savedirec+'graph_'+xlabel+'_'+ylabel+'.png'
+			plt.savefig(out_path)
