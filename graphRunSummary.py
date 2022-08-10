@@ -47,10 +47,35 @@ runs50 = np.transpose(sorted([x for x in runsArr if x[4] == .5], key=lambda x:x[
 runs70 = np.transpose(sorted([x for x in runsArr if x[4] == .7], key=lambda x:x[3]))
 runs95 = np.transpose(sorted([x for x in runsArr if x[4] == .9], key=lambda x:x[3]))
 
-#savedirec='/tmp/ramdisk/'
-savedirec = None
+savedirec='/tmp/ramdisk/'
+#savedirec = None
 
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
+fig, ax = plt.subplots() #Generate new figure
+for i in sorted(set(runsT[3])):
+	filtered = np.transpose(sorted([x for x in runsArr if x[3] == i], key=lambda x: x[4]))
+	if i > 350000/1500000 and i < 650000/1500000:
+		summ.plot(ax, filtered[4], filtered[1], 'accuracy', 'average gamma', style='plot', legend=range(400000, 650000, 50000), savedirec=savedirec)
+fig, ax = plt.subplots() #Generate new figure
+for i in sorted(set(runsT[3])):
+	filtered = np.transpose(sorted([x for x in runsArr if x[3] == i], key=lambda x: x[4]))
+	if i > 350000/1500000 and i < 650000/1500000:
+		summ.plot(ax, filtered[4], filtered[0], 'accuracy', 'average beta', style='plot', legend=range(400000, 650000, 50000), savedirec=savedirec)
+fig, ax = plt.subplots() #Generate new figure
+for i in [runs50, runs70, runs95]:
+	summ.plot(ax, i[3], i[1], 'test capacity', 'average gamma', style='plot', legend=['50%', '70%', '95%'], savedirec=savedirec)
+fig, ax = plt.subplots() #Generate new figure
+for i in [runs50, runs70, runs95]:
+	summ.plot(ax, i[3], i[0], 'test capacity', 'average beta', style='plot', legend=['50%', '70%', '95%'], savedirec=savedirec)
+fig, ax = plt.subplots() #Generate new figure
+summ.plot(ax, runsT[3], runsT[6], 'test capacity', 'run length', style='scatter', color=runsT[4], savedirec=savedirec)
+fig, ax = plt.subplots() #Generate new figure
+summ.plot(ax, runsT[4], runsT[6], 'accuracy', 'run length', style='scatter', color=runsT[3], savedirec=savedirec)
+fig, ax = plt.subplots() #Generate new figure
+summ.plot(ax, runsT[3], runsT[5], 'test capacity', 'total infected', style='scatter', color=runsT[4], savedirec=savedirec)
+fig, ax = plt.subplots() #Generate new figure
+summ.plot(ax, runsT[4], runsT[5], 'accuracy', 'total infected', style='scatter', color=runsT[3], savedirec=savedirec)
+
+'''fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
 for i in sorted(set(runsT[3])):
 	filtered = np.transpose(sorted([x for x in runsArr if x[3] == i], key=lambda x: x[4]))
 	if i > 350000/1500000 and i < 650000/1500000:
@@ -65,5 +90,5 @@ fig, axs = plt.subplots(2, 2)
 summ.plot(axs[0][0], runsT[3], runsT[6], 'test capacity', 'run length', style='scatter', color=runsT[4], savedirec=savedirec)
 summ.plot(axs[0][1], runsT[4], runsT[6], 'accuracy', 'run length', style='scatter', color=runsT[3], savedirec=savedirec)
 summ.plot(axs[1][0], runsT[3], runsT[5], 'test capacity', 'total infected', style='scatter', color=runsT[4], savedirec=savedirec)
-summ.plot(axs[1][1], runsT[4], runsT[5], 'accuracy', 'total infected', style='scatter', color=runsT[3], savedirec=savedirec)
+summ.plot(axs[1][1], runsT[4], runsT[5], 'accuracy', 'total infected', style='scatter', color=runsT[3], savedirec=savedirec)'''
 plt.show()
