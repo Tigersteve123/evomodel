@@ -40,7 +40,7 @@ for file in os.listdir(directory):
 			averageGCum = np.sum(np.sum(totalSplitTotal, 0)*mod.grange)/np.sum(totalSplitTotal)
 			lstAvg.append((averageB.copy(), averageG.copy()))
 			lstCumAvg.append((averageBCum, averageGCum))
-	runsArr.append((lstCumAvg[-1][0], lstCumAvg[-1][1], len(run), int(tc), round(float(acc), 2), np.sum(data[1]), data[8])) #ending average beta, ending average gamma, total length, capacity, accuracy, total infected, run length
+	runsArr.append((lstCumAvg[-1][0], lstCumAvg[-1][1], len(run), int(tc), round(float(acc), 2), np.sum(data[1]), np.average(data[8]))) #ending average beta, ending average gamma, total length, capacity, accuracy, total infected, average run length
 	avgArr.append(lstAvg)
 runsT = np.transpose(runsArr)
 runs50 = np.transpose(sorted([x for x in runsArr if x[4] == .5], key=lambda x:x[3]))
@@ -88,10 +88,16 @@ ax4.plot(runs95[3], runs95[0])
 ax4.legend(['50%', '70%', '95%'])
 ax4.set_ylabel('average beta')
 fig, axs = plt.subplots(2, 2)
-axs[0][0].plot(runsT[3], runsT[8], c=runsT[4]) #capacity vs length
+axs[0][0].scatter(runsT[3], runsT[6], c=runsT[4]) #capacity vs length
 axs[0][0].set_xlabel('test capacity')
 axs[0][0].set_ylabel('run length')
-axs[0][1].plot(runsT[4], runsT[8], c=runsT[3]) #accuracy vs length
+axs[0][1].scatter(runsT[4], runsT[6], c=runsT[3]) #accuracy vs length
 axs[0][1].set_xlabel('accuracy')
 axs[0][1].set_ylabel('run length')
+axs[1][0].scatter(runsT[3], runsT[5])
+axs[1][0].set_xlabel('test capacity')
+axs[1][0].set_ylabel('total infected')
+axs[1][1].scatter(runsT[4], runsT[5])
+axs[1][1].set_xlabel('accuracy')
+axs[1][1].set_ylabel('total infected')
 plt.show()
