@@ -16,8 +16,8 @@ class summary:
 		for i in range(len(self.run)):
 			fig, ax = plt.subplots()
 			im, cbar = heatmap(self.run[i], np.around(self.mod.brange, decimals=7), np.around(self.mod.grange, decimals=5), vmin=0, cmap='Greys')
-			ax.set_xlabel("Latency")
-			ax.set_ylabel("Infectivity")
+			ax.set_xlabel("Latency γ")
+			ax.set_ylabel("Infectivity β")
 			fig.tight_layout()
 			if savedirec:
 				out_path = savedirec+'/period_'+str(i)+'.png'
@@ -51,8 +51,8 @@ class summary:
 			plt.plot(i[0], i[1], c='gray')
 		#print([avgArray[0][0]], [avgArray[0][1]])
 		plt.plot(avgArray[0][0][0], avgArray[0][0][1], c='black', marker='o')
-		plt.xlabel('beta')
-		plt.ylabel('gamma')
+		plt.xlabel('β')
+		plt.ylabel('γ')
 		#print(avgArray)
 		if savedirec:
 			out_path = savedirec+'/average_cumulative.png'
@@ -65,8 +65,8 @@ class summary:
 		#print(ends)
 		plt.scatter(ends[0], ends[1], c=ends[2], cmap='gray')
 		plt.plot(avgArray[0][0][0], avgArray[0][0][1], c='blue', marker='o')
-		plt.xlabel('beta')
-		plt.ylabel('gamma')
+		plt.xlabel('β')
+		plt.ylabel('γ')
 		if savedirec:
 			out_path = savedirec+'/average_ends.png'
 			plt.savefig(out_path)
@@ -85,5 +85,20 @@ class summary:
 		if legend:
 			ax.legend(legend)
 		if savedirec:
-			out_path = savedirec+'graph_'+xlabel+'_'+ylabel+'.png'
+			out_path = savedirec+'/graph_'+xlabel+'_'+ylabel+'.png'
 			plt.savefig(out_path)
+	
+	def plotQuarantine(self, qs, qi1, qi2, savedirec=None, show=False):
+		fig, ax = plt.subplots()
+		t = range(len(qs))
+		ax.plot(t, qs)
+		ax.plot(t, qi1)
+		ax.plot(t, np.sum(qi2, (1, 2)))
+		ax.legend(['QS', 'QI1', 'QI2'])
+		ax.set_xlabel('time')
+		ax.set_ylabel('individuals')
+		if savedirec:
+			out_path = savedirec+'/quarantine.png'
+			plt.savefig(out_path)
+		if show:
+			plt.show()

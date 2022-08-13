@@ -36,6 +36,7 @@ class model:
 		lstQI2 = [np.zeros((len(self.brange), len(self.grange)), dtype=int)]
 		I1 = i0 #tracks infected in period 1
 		I2 = np.zeros((len(self.brange), len(self.grange)), dtype=int)
+		Ihat_2 = I2.copy()
 		p = np.zeros((len(self.brange), len(self.grange)), dtype=float) #p(i, j)
 		S = s
 		st = I2.copy() #s_{t, (i, j)}
@@ -48,9 +49,9 @@ class model:
 		t = 0
 
 		def eq1(i, j):
-			I2[i, j] = np.random.binomial(lst1[-1][i, j], self.grange[j])
+			Ihat_2[i, j] = np.random.binomial(lst1[-1][i, j], self.grange[j])
 		def eq5(i, j):
-			p[i, j] = self.brange[i]*(I1[i, j]+I2[i, j])/denom5
+			p[i, j] = self.brange[i]*(lst1[-1][i, j]+lst2[-1][i, j])/denom5
 		def eq67(i, j):
 			st[i, j] = np.random.binomial(Ibar[i, j], self.ps) #eq. 6
 			sbart[i, j] = Ibar[i, j]-st[i, j]
@@ -83,22 +84,23 @@ class model:
 					eq1(i, j) #Ihat_2
 			Ihat = np.random.binomial(S, 1-math.prod((np.subtract(1,self.brange))**(np.sum(I1, 1)+np.sum(I2, 1)))) #eq. 12: Calculate new infections for Ihat_{t+1, 1}
 			
-			tau = min(tc/(S+Ihat+np.sum(I2)), 1) #eq. 13
+			tau = min(tc/(S+Ihat+np.sum(Ihat_2)), 1) #eq. 13
 			
-			QS1 = np.random.binomial(S, tau*(1-acc))
-			QS2 = lstQS[-1]
+			QS = np.random.binomial(S, tau*(1-acc))
+			try: QS2 = lstQS[-2]
+			except: QS2 = 0
 			
-			S = S-Ihat-QS1+QS2 #eq. 17
+			S = S-Ihat-QS+QS2 #eq. 17
 			
 			QI = np.random.binomial(Ihat, tau*acc) #eq. 18
 			I = Ihat-QI #eq. 19
-			QI2 = I2.copy()
+			QI2 = Ihat_2.copy()
 			for i in range(len(self.brange)):
 				for j in range(len(self.grange)):
-					QI2[i, j] = np.random.binomial(I2[i, j], tau*acc) #eq. 20
-					I2[i, j] -= QI2[i, j] #eq. 21
+					QI2[i, j] = np.random.binomial(Ihat_2[i, j], tau*acc) #eq. 20
+					I2[i, j] = Ihat_2[i, j]-QI2[i, j] #eq. 21
 			
-			Isum = np.sum(I1, 1)+np.sum(I2, 1)
+			Isum = np.sum(lst1[-1], 1)+np.sum(lst2[-1], 1)
 			denom5 = np.sum(self.brange*Isum) #eq. 5 denominator
 			if denom5 > 0: #we do need this check
 				for i in range(len(self.brange)):
@@ -129,7 +131,7 @@ class model:
 			lstS.append(S)
 			lstAvg.append((averageB.copy(), averageG.copy()))
 			lstCumAvg.append((averageBCum, averageGCum))
-			lstQS.append(QS1)
+			lstQS.append(QS)
 			lstQI1.append(QI)
 			lstQI2.append(QI2)
 			t += 1
