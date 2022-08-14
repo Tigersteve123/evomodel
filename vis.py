@@ -26,8 +26,9 @@ if 'test' in filename:
 else: mod = model(0.0000001, .0000001, 11, 0.4, 0.05, 5, .9)
 
 summ = summary(data[0], mod=mod)
+#print(data[0])
 
-'''if m.savepath: summ.vis(m.savepath, show=m.show)
-else: summ.vis(show=m.show)'''
-if m.savepath: summ.plotQuarantine(data[5]/1000, data[6]/1000, data[7]/1000, savedirec=m.savepath, show=m.show)
-else: summ.plotQuarantine(data[5]/1000, data[6]/1000, data[7]/1000, show=m.show)
+if m.savepath: summ.vis(m.savepath, show=m.show)
+else: summ.vis(show=m.show)
+#if m.savepath: summ.plotQuarantine(data[5]/1000, data[6]/1000, data[7]/1000, data[4]/1000, data[1]/1000, data[2]/1000, savedirec=m.savepath, show=m.show)
+#else: summ.plotQuarantine(data[5]/1000, data[6]/1000, data[7]/1000, data[4]/1000, data[1]/1000, data[2]/1000, show=m.show)

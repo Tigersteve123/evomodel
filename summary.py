@@ -88,13 +88,16 @@ class summary:
 			out_path = savedirec+'/graph_'+xlabel+'_'+ylabel+'.png'
 			plt.savefig(out_path)
 	
-	def plotQuarantine(self, qs, qi1, qi2, savedirec=None, show=False):
+	def plotQuarantine(self, qs, qi1, qi2, s, i1, i2, savedirec=None, show=False):
 		fig, ax = plt.subplots()
 		t = range(len(qs))
 		ax.plot(t, qs)
 		ax.plot(t, qi1)
 		ax.plot(t, np.sum(qi2, (1, 2)))
-		ax.legend(['QS', 'QI1', 'QI2'])
+		ax.plot(t, s)
+		ax.plot(t, np.sum(i1, (1, 2)))
+		ax.plot(t, np.sum(i2, (1, 2)))
+		ax.legend(['QS', 'QI1', 'QI2', 'S', 'I1', 'I2'])
 		ax.set_xlabel('time')
 		ax.set_ylabel('individuals')
 		if savedirec:
