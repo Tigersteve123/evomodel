@@ -86,7 +86,7 @@ class model:
 			for i in range(len(self.brange)):
 				for j in range(len(self.grange)):
 					st[i, j] = np.random.binomial(Ibar[i, j], self.ps)
-					sbar = Ibar-st
+			sbar = Ibar-st
 			I1 = st.copy()
 			
 			### Evolution ###
