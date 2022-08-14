@@ -24,117 +24,7 @@ class model:
 		neighbors = [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]
 		return [x for x in neighbors if (x[0] in range(len(self.brange)) and x[1] in range(len(self.grange)))]
 
-	def sim(self, s:int, i0:np.ndarray, tc=0, acc=0):
-		'''lst1 = [] #history of infected
-		lst2 = lst1.copy()
-		lstS = [s]
-		lstI = [np.sum(i0)]
-		lstAvg = []
-		lstCumAvg = []
-		lstQS = [0]
-		lstQI1 = [0]
-		lstQI2 = [np.zeros((len(self.brange), len(self.grange)), dtype=int)]
-		I1 = i0 #tracks infected in period 1
-		I2 = np.zeros((len(self.brange), len(self.grange)), dtype=int)
-		Ihat_2 = I2.copy()
-		p = np.zeros((len(self.brange), len(self.grange)), dtype=float) #p(i, j)
-		S = s
-		st = I2.copy() #s_{t, (i, j)}
-		sbart = I2.copy()
-		Ibar = I2.copy()
-		d = I2.copy() #delta(i, j)->(i', j')
-		lst1.append(I1.copy()) #current period
-		lst2.append(I2.copy())
-		totalSplitTotal = np.zeros((len(self.brange), len(self.grange)), dtype=int)
-		t = 0
-
-		def eq1(i, j):
-			Ihat_2[i, j] = np.random.binomial(lst1[-1][i, j], self.grange[j])
-		def eq5(i, j):
-			p[i, j] = self.brange[i]*(lst1[-1][i, j]+lst2[-1][i, j])/denom5
-		def eq67(i, j):
-			st[i, j] = np.random.binomial(Ibar[i, j], self.ps) #eq. 6
-			sbart[i, j] = Ibar[i, j]-st[i, j]
-			darray = []
-			for x in self.neighborcoords(i, j): #for every neighbor
-				probs = [1/len(self.neighborcoords(i, j)) for a in range(len(self.neighborcoords(i, j)))]
-				neighborParray = np.random.multinomial(sbart[x], probs)
-				print(sbart[x], neighborParray)
-				narray = self.neighbors(i, j)
-				for x in range(len(self.brange)):
-					for y in range(len(self.grange)):
-						if narray[x, y] == 1:
-							last, neighborParray = neighborParray[-1], neighborParray[:-1] #pop
-							darray.append(last)
-			d[i, j] = np.sum(darray) #eq. 7
-			I1[i, j] = st[i, j]+d[i, j] #eq. 8
-
-		while (S > 0) and (np.sum(I1)+np.sum(I2) > 0): #infected and susceptible > 0
-			### Trend Tracking ###
-			totalSplitI = I1+I2
-			totalSplitTotal += I1+I2
-			averageB = np.sum(np.sum(totalSplitI, 1)*self.brange)/np.sum(totalSplitI)
-			averageG = np.sum(np.sum(totalSplitI, 0)*self.grange)/np.sum(totalSplitI)
-			averageBCum = np.sum(np.sum(totalSplitTotal, 1)*self.brange)/np.sum(totalSplitTotal)
-			averageGCum = np.sum(np.sum(totalSplitTotal, 0)*self.grange)/np.sum(totalSplitTotal)
-			
-			### Infections ###
-			for i in range(len(self.brange)):
-				for j in range(len(self.grange)):
-					eq1(i, j) #Ihat_2
-			Ihat = np.random.binomial(S, 1-math.prod((np.subtract(1,self.brange))**(np.sum(I1, 1)+np.sum(I2, 1)))) #eq. 12: Calculate new infections for Ihat_{t+1, 1}
-			
-			tau = min(tc/(S+Ihat+np.sum(Ihat_2)), 1) #eq. 13
-			
-			QS = np.random.binomial(S, tau*(1-acc))
-			try: QS2 = lstQS[-2]
-			except: QS2 = 0
-			
-			S = S-Ihat-QS+QS2 #eq. 17
-			
-			QI = np.random.binomial(Ihat, tau*acc) #eq. 18
-			I = Ihat-QI #eq. 19
-			QI2 = Ihat_2.copy()
-			for i in range(len(self.brange)):
-				for j in range(len(self.grange)):
-					QI2[i, j] = np.random.binomial(Ihat_2[i, j], tau*acc) #eq. 20
-					I2[i, j] = Ihat_2[i, j]-QI2[i, j] #eq. 21
-			
-			Isum = np.sum(lst1[-1], 1)+np.sum(lst2[-1], 1)
-			denom5 = np.sum(self.brange*Isum) #eq. 5 denominator
-			if denom5 > 0: #we do need this check
-				for i in range(len(self.brange)):
-					for j in range(len(self.grange)):
-						eq5(i, j)
-				Ibar_flat = np.random.multinomial(I, p.flatten()) #eq. 4
-				Ibar = np.reshape(Ibar_flat, (len(self.brange), len(self.grange))) #eq. 4
-			for i in range(len(self.brange)):
-				for j in range(len(self.grange)):
-					st[i, j] = np.random.binomial(Ibar[i, j], self.ps) #eq. 6
-					sbart[i, j] = Ibar[i, j]-st[i, j]
-			I1 = st.copy()
-
-			### Evolution ###
-			for i in range(len(self.brange)):
-				for j in range(len(self.grange)):
-					probs = [1/len(self.neighborcoords(i, j)) for a in range(len(self.neighborcoords(i, j)))]
-					neighborParray = np.random.multinomial(sbart[i, j], probs)
-					narray = self.neighborcoords(i, j)
-					#print(narray)
-					for x in range(len(narray)):
-						I1[narray[x]] = I1[narray[x]]+neighborParray[x]
-
-			### Tracking data ###
-			lst1.append(I1.copy())
-			lst2.append(I2.copy())
-			lstI.append(np.sum(I1)+np.sum(I2))
-			lstS.append(S)
-			lstAvg.append((averageB.copy(), averageG.copy()))
-			lstCumAvg.append((averageBCum, averageGCum))
-			lstQS.append(QS)
-			lstQI1.append(QI)
-			lstQI2.append(QI2)
-			t += 1'''
+	def sim(self, s:int, i0:np.ndarray, tc=0, acc=1, acc_S=1):
 		lstS = [s]
 		lstIhat = [np.sum(i0)]
 		lstI1 = [i0.copy()]
@@ -142,6 +32,9 @@ class model:
 		lstQS = [0]
 		lstQI1 = [0]
 		lstQI2 = [np.zeros((len(self.brange), len(self.grange)), dtype=int)]
+		lstAvg = []
+		lstCumAvg = []
+		totalSplitTotal = np.zeros((len(self.brange), len(self.grange)), dtype=int)
 		t = 0
 		
 		Ihat2 = np.zeros((len(self.brange), len(self.grange)), dtype=int)
@@ -153,12 +46,17 @@ class model:
 		I2 = np.zeros((len(self.brange), len(self.grange)), dtype=int)
 		QI2 = I2.copy()
 		
-		while np.sum(I1)+np.sum(I2) > 0.0001 and lstS[-1] > 0.0001:
-			#print(np.sum(I1)+np.sum(I2), lstS[-1])
+		while np.sum(I1)+np.sum(I2) > 0 and lstS[-1] > 0:
+			### Trend Tracking ###
 			I1_lastPeriod = lstI1[-1]
 			I2_lastPeriod = lstI2[-1]
 			ITotal_lastPeriod = I1_lastPeriod+I2_lastPeriod
 			S_lastPeriod = lstS[-1]
+			totalSplitTotal += ITotal_lastPeriod
+			averageB = np.sum(np.sum(ITotal_lastPeriod, 1)*self.brange)/np.sum(ITotal_lastPeriod)
+			averageG = np.sum(np.sum(ITotal_lastPeriod, 0)*self.grange)/np.sum(ITotal_lastPeriod)
+			averageBCum = np.sum(np.sum(totalSplitTotal, 1)*self.brange)/np.sum(totalSplitTotal)
+			averageGCum = np.sum(np.sum(totalSplitTotal, 0)*self.grange)/np.sum(totalSplitTotal)
 			
 			### Infection ###
 			for i in range(len(self.brange)):
@@ -167,26 +65,28 @@ class model:
 			Ihat = np.random.binomial(S_lastPeriod, (1-math.prod( (np.subtract(1, self.brange))**(np.sum(I1_lastPeriod, 1)+np.sum(I2_lastPeriod, 1)) )))
 			Shat = S_lastPeriod-Ihat
 			
-			tau = min(C/(S_lastPeriod+np.sum(Ihat2)), 1)
+			tau = min(tc/(S_lastPeriod+np.sum(Ihat2)), 1)
 			
-			QS = np.random.binomial(Shat, tau*(1-alpha))
+			QS = np.random.binomial(Shat, tau*(1-acc_S))
 			try: QS2 = lstQS[-2]
 			except: QS2 = 0
 			S = Shat-QS+QS2
 			
-			QI = np.random.binomial(Ihat, tau*alpha)
+			QI = np.random.binomial(Ihat, tau*acc)
 			I = Ihat-QI
 			for i in range(len(self.brange)):
 				for j in range(len(self.grange)):
-					QI2[i, j] = np.random.binomial(Ihat2[i, j], tau*alpha)
+					QI2[i, j] = np.random.binomial(Ihat2[i, j], tau*acc)
 			I2 = Ihat2-QI2
 			
 			for i in range(len(self.brange)):
 				for j in range(len(self.grange)):
 					p[i, j] = self.brange[i]*(ITotal_lastPeriod[i, j])/np.sum(self.brange* np.sum(ITotal_lastPeriod, 1)) #calculate denominator separately for efficiency
 			Ibar = np.reshape(np.random.multinomial(I, p.flatten()), (len(self.brange), len(self.grange)))
-			st = Ibar[i, j]*self.ps #take out of loop
-			sbar = Ibar-st
+			for i in range(len(self.brange)):
+				for j in range(len(self.grange)):
+					st[i, j] = np.random.binomial(Ibar[i, j], self.ps)
+					sbar = Ibar-st
 			I1 = st.copy()
 			
 			### Evolution ###
@@ -206,5 +106,7 @@ class model:
 			lstQS.append(QS)
 			lstQI1.append(QI)
 			lstQI2.append(QI2)
+			lstAvg.append((averageB.copy(), averageG.copy()))
+			lstCumAvg.append((averageBCum, averageGCum))
 			t += 1
-		return np.array(lstI1), np.array(lstI2), np.array(lstIhat), np.array(lstS), 0, 0, np.array(lstQS), np.array(lstQI1), np.array(lstQI2), t #appending 0 for backwards capacity
+		return np.array(lstI1), np.array(lstI2), np.array(lstIhat), np.array(lstS), lstAvg, lstCumAvg, np.array(lstQS), np.array(lstQI1), np.array(lstQI2), t

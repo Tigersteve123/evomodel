@@ -19,7 +19,7 @@ if __name__ == '__main__':
 	i0_center[5, 2] = 50
 	all_listAv = []
 	for i in range(100):
-		lst1, lst2, lstI, lstS, lstAv, lstCuAv, lstQS, lstQI1, lstQI2 = mod.sim(1500000, i0_center.copy())
+		lst1, lst2, lstI, lstS, lstAv, lstCuAv, lstQS, lstQI1, lstQI2, t = mod.sim(1500000, i0_center.copy())
 		all_listAv.append(lstCuAv.copy())
 	with open('lstAv_large_cu_new.npy', 'wb') as f:
 		np.save(f, all_listAv)
