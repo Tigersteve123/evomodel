@@ -9,7 +9,7 @@ import re
 from summary import summary
 from model import model
 
-directory_in_str = './runs/'
+directory_in_str = './runsDeterministic/'
 
 directory = os.fsencode(directory_in_str)
 
