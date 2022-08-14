@@ -106,7 +106,7 @@ for tc in range(0, 1500000, 50000):
 		output_lst = [lstI1+lstI2, lstS, lstIhat, lstI1, lstI2, lstQS, lstQI1, lstQI2]
 		out_array = np.empty(len(output_lst), dtype=object)
 		out_array[:] = output_lst
-		filename = 'runs_deterministic/testQuarantineTc'+str(tc)+'Acc'+str(acc)+'_'+str(0.0000001)+'_'+str(0.4)+'_0.9.npy'
+		filename = 'runsDeterministic/testQuarantineTc'+str(tc)+'Acc'+str(acc)+'_'+str(0.0000001)+'_'+str(0.4)+'_0.9.npy'
 		print(filename)
 		with open(filename, 'wb') as f:
 			np.save(f, out_array)
