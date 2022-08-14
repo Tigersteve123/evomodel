@@ -103,8 +103,8 @@ for tc in range(0, 1500000, 50000):
 	#acc = 0.95
 	#if acc == 0.95:
 	for acc in np.arange(0, 1, .1):
-		lstS, lstIhat, lstI1, lstI2, lstQS, lstQI1, lstQI2 = mod.sim(1500000, i0.copy(), tc, acc)
-		output_lst = [lstI1+lstI2, lstS, lstIhat, lstI1, lstI2, lstQS, lstQI1, lstQI2]
+		lstS, lstIhat, lstI1, lstI2, lstQS, lstQI1, lstQI2, t = mod.sim(1500000, i0.copy(), tc, acc)
+		output_lst = [lstI1+lstI2, lstS, lstIhat, lstI1, lstI2, lstQS, lstQI1, lstQI2, t]
 		out_array = np.empty(len(output_lst), dtype=object)
 		out_array[:] = output_lst
 		filename = 'runsDeterministic/testQuarantineTc'+str(tc)+'Acc'+str(acc)+'_'+str(0.0000001)+'_'+str(0.4)+'_0.9.npy'
