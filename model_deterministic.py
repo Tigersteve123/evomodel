@@ -40,7 +40,7 @@ class model:
 		I2 = np.zeros((len(self.brange), len(self.grange)))#, dtype=int)
 		QI2 = I2.copy()
 		
-		while np.sum(I1)+np.sum(I2) > 0.0001 and lstS[-1] > 0.0001:
+		while np.sum(I1)+np.sum(I2) > 0.1 and lstS[-1] > 0.1:
 			#print(np.sum(I1)+np.sum(I2), lstS[-1])
 			I1_lastPeriod = lstI1[-1]
 			I2_lastPeriod = lstI2[-1]
