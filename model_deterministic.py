@@ -29,6 +29,7 @@ class model:
 		lstQS = [0]
 		lstQI1 = [0]
 		lstQI2 = [np.zeros((len(self.brange), len(self.grange)), dtype=int)]
+		t = 0
 		
 		Ihat2 = np.zeros((len(self.brange), len(self.grange)), dtype=int)
 		p = np.zeros((len(self.brange), len(self.grange)), dtype=float)
@@ -92,8 +93,8 @@ class model:
 			lstQS.append(QS)
 			lstQI1.append(QI)
 			lstQI2.append(QI2)
-			#print(S, Ihat, np.sum(I1), np.sum(I2), QS, QI, np.sum(QI2))
-		return np.array(lstS), np.array(lstIhat), np.array(lstI1), np.array(lstI2), np.array(lstQS), np.array(lstQI1), np.array(lstQI2)
+			t += 1
+		return np.array(lstS), np.array(lstIhat), np.array(lstI1), np.array(lstI2), np.array(lstQS), np.array(lstQI1), np.array(lstQI2), t
 
 mod = model(.0000001, .0000001, 11, .4, 0.05, 5, .9)
 i0 = np.zeros((len(mod.brange), len(mod.grange)), dtype=int)

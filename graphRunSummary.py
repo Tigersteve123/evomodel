@@ -24,7 +24,7 @@ for file in os.listdir(directory):
 	params[2] = params[2][:-4]
 	params = [float(x) for x in params]
 	mod = model(params[0], .0000001, 11, params[1], 0.05, 5, params[2])
-	tc, acc = re.split('./runs/testQuarantineTc|Acc|_', filename)[1:3] #parameters from filename
+	tc, acc = re.split('./runsDeterministic/testQuarantineTc|Acc|_', filename)[1:3] #parameters from filename
 	print(tc, acc)
 	data = np.load(filename, allow_pickle=True)
 	run = data[0] #total infected in data[0]
