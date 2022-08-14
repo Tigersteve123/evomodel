@@ -25,13 +25,12 @@ for file in os.listdir(directory):
 	params = [float(x) for x in params]
 	mod = model(params[0], .0000001, 11, params[1], 0.05, 5, params[2])
 	tc, acc = re.split('./runsDeterministic/testQuarantineTc|Acc|_', filename)[1:3] #parameters from filename
-	print(tc, acc)
 	data = np.load(filename, allow_pickle=True)
 	run = data[0] #total infected in data[0]
 	summ = summary(data[0], mod=mod)
 	lstAvg = []
 	lstCumAvg = []
-	totalSplitTotal = np.zeros((len(mod.brange), len(mod.grange)), dtype=int)
+	totalSplitTotal = np.zeros((len(mod.brange), len(mod.grange)))#, dtype=int)
 	for i in run:
 		if np.sum(i) > 0:
 			totalSplitTotal += i
@@ -41,7 +40,7 @@ for file in os.listdir(directory):
 			averageGCum = np.sum(np.sum(totalSplitTotal, 0)*mod.grange)/np.sum(totalSplitTotal)
 			lstAvg.append((averageB.copy(), averageG.copy()))
 			lstCumAvg.append((averageBCum, averageGCum))
-	runsArr.append((lstCumAvg[-1][0], lstCumAvg[-1][1], len(run), int(tc)/1500000, round(float(acc), 2), np.sum(data[1]), np.average(data[8]))) #ending average beta, ending average gamma, total length, capacity, accuracy, total infected, average run length
+	runsArr.append((lstCumAvg[-1][0], lstCumAvg[-1][1], len(run), int(tc)/1500000, round(float(acc), 2), np.sum(data[2]), np.average(data[8]))) #ending average beta, ending average gamma, total length, capacity, accuracy, total infected, average run length
 	avgArr.append(lstAvg)
 runsT = np.transpose(runsArr)
 runs50 = np.transpose(sorted([x for x in runsArr if x[4] == .5], key=lambda x:x[3]))
