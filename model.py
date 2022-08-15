@@ -79,9 +79,10 @@ class model:
 					QI2[i, j] = np.random.binomial(Ihat2[i, j], tau*acc)
 			I2 = Ihat2-QI2
 			
+			denom = np.sum(self.brange* np.sum(ITotal_lastPeriod, 1)) #calculate denominator separately for efficiency
 			for i in range(len(self.brange)):
 				for j in range(len(self.grange)):
-					p[i, j] = self.brange[i]*(ITotal_lastPeriod[i, j])/np.sum(self.brange* np.sum(ITotal_lastPeriod, 1)) #calculate denominator separately for efficiency
+					p[i, j] = self.brange[i]*(ITotal_lastPeriod[i, j])/denom
 			Ibar = np.reshape(np.random.multinomial(I, p.flatten()), (len(self.brange), len(self.grange)))
 			for i in range(len(self.brange)):
 				for j in range(len(self.grange)):
