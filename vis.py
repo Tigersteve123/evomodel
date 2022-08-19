@@ -1,6 +1,7 @@
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
+import re
 
 from model import model
 from heatmap import heatmap
@@ -22,13 +23,15 @@ if 'test' in filename:
     params = filename.split('_')[1:]
     params[-1] = params[-1][:-4]
     params = [float(x) for x in params]
+    tc, acc = re.split('runs/testQuarantineTc|Acc|_', filename)[1:3]
     mod = model(params[0], .0000001, 11, params[1], 0.05, 5, params[2])
 else: mod = model(0.0000001, .0000001, 11, 0.4, 0.05, 5, .9)
 
 summ = summary(data[0], mod=mod)
 #print(data[0])
+qs, qi1, qi2, s, i1, i2, ihat = (x/1000 for x in (data[5], data[6], data[7], data[4], data[1], data[2], data[3]))
 
-if m.savepath: summ.vis(m.savepath, show=m.show)
-else: summ.vis(show=m.show)
-#if m.savepath: summ.plotQuarantine(data[5]/1000, data[6]/1000, data[7]/1000, data[4]/1000, data[1]/1000, data[2]/1000, savedirec=m.savepath, show=m.show)
-#else: summ.plotQuarantine(data[5]/1000, data[6]/1000, data[7]/1000, data[4]/1000, data[1]/1000, data[2]/1000, show=m.show)
+#if m.savepath: summ.vis(m.savepath, show=m.show)
+#else: summ.vis(show=m.show)
+if m.savepath: summ.plotQuarantine(qs, qi1, qi2, s, i1, i2, ihat, savedirec=m.savepath, fname='quarantine_'+tc+'_'+acc, show=m.show)
+else: summ.plotQuarantine(qs, qi1, qi2, s, i1, i2, ihat, show=m.show)
